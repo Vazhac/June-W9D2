@@ -1,17 +1,14 @@
-const add = document.getElementById("add");
-add.addEventListener("click", async () => {
+const fetchImage = async () => {
+
     try {
+        const kittenResponse = await fetch("https://api.thecatapi.com/v1/images/search?size=small");
 
-        const res = await fetch("https://thecatapi.com/")
-        const data = await res.json();
-        const url = data.data.url;
+        const kittenData = await kittenResponse.json();
 
-        // Create element to inject
-        const newImg = document.getElementById("Kitten");
-        newImg.src = url;
-
-        // Inject element into correct location
+        const kittenImgUrl = kittenData[0].url;
+        const kittenImg = document.querySelector("img");
+        kittenImg.src = kittenImgUrl;
     } catch (e) {
-        console.log("Couldn't fetch cat :(")
+        console.log("Failed to fetch image", e);
     }
-});
+};
